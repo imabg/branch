@@ -1,3 +1,3 @@
 # Branch
 
-# TODO
+TODO: add complete flow to setup on local
