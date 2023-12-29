@@ -3,7 +3,7 @@
 
 ### P0
 
-- [ ] Authentication & Authorization
+- [x] Authentication & Authorization
 - [ ] Company onboarding
 - [ ] Career Page 
 - [ ] Job creation

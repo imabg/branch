@@ -1,7 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
+import * as bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 
+const PASSWORD_SALT_ROUND = 8;
 @Schema({
   timestamps: true,
   toJSON: {
@@ -35,3 +37,10 @@ export class UserEntity {
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserEntity);
+
+UserSchema.pre('save', async function (next) {
+  if (this.password) {
+    this.password = await bcrypt.hash(this.password, PASSWORD_SALT_ROUND);
+  }
+  next();
+});
