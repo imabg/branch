@@ -1,7 +1,7 @@
 export enum HeadCount {
-  FIVE_TO_FIFTY = '5 to 50',
-  FIFTYONE_TO_HUNDERED = '51 to 100',
-  HUNDEREDONE_TO_FIVEHUNDERED = '101 to 500',
-  FIVEHUNDEREDONE_TO_FIFTEENHUNDERED = '501 to 1500',
-  ABOVE_FIFTEENHUNDERED = 'Above 1500',
+  '5 to 50',
+  '51 to 100',
+  '101 to 500',
+  '501 to 1500',
+  'Above 1500',
 }

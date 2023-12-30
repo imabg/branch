@@ -9,7 +9,7 @@ class Profile {
   name: string;
 
   @ApiProperty({ description: 'Website' })
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, required: true, unique: true })
   website: string;
 
   @ApiProperty({ description: 'Phone Number' })
@@ -38,7 +38,7 @@ export class CompanyEntity {
   profile: Profile;
 
   @ApiProperty({ description: 'head count' })
-  @Prop({ enum: Object.keys(HeadCount), required: true, type: String })
+  @Prop({ enum: HeadCount, required: true, type: String })
   headCount: string;
 
   @ApiProperty({ description: 'identity' })

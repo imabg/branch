@@ -1,9 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import * as bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 
-const PASSWORD_SALT_ROUND = 8;
 @Schema({
   timestamps: true,
   toJSON: {
@@ -23,8 +21,12 @@ export class UserEntity {
   @Prop({ type: String, required: true })
   name: string;
 
+  @ApiProperty({ description: 'tell whether password set by user or not' })
+  @Prop({ type: Boolean, default: false })
+  isPasswordSet: boolean;
+
   @ApiProperty({ description: 'user password ' })
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   password: string;
 
   @ApiProperty({ description: 'company id to which user belongs to' })
@@ -37,10 +39,3 @@ export class UserEntity {
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserEntity);
-
-UserSchema.pre('save', async function (next) {
-  if (this.password) {
-    this.password = await bcrypt.hash(this.password, PASSWORD_SALT_ROUND);
-  }
-  next();
-});

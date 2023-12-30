@@ -4,4 +4,7 @@ export default () => ({
     secret: process.env.JWT_SECRET,
     expiry: process.env.JWT_EXPIRY,
   },
+  util: {
+    saltRound: 8,
+  },
 });
