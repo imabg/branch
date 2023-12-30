@@ -1,0 +1,16 @@
+### Create Company
+POST {{URL}}/company/onboarding
+Content-Type: application/json
+
+{
+  "headCount": "5 to 50",
+  "profile": {
+    "website": "https://babatraders.in",
+    "phone": "9090974785",
+    "countryCode": "+91"
+  },
+  "user": {
+    "email": "user2@bt.in",
+    "password": "Something123#"
+  }
+}
