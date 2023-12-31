@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -30,8 +35,14 @@ export class CompanyService {
     return `This action returns all company`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} company`;
+  async findOne(id: string): Promise<CompanyEntity> {
+    try {
+      const company = await this.companyModel.findById(id);
+      if (!company) throw new NotFoundException('Company not found');
+      return company;
+    } catch (e) {
+      throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   update(id: number, updateCompanyDto: UpdateCompanyDto) {
