@@ -1,0 +1,15 @@
+### Create a job
+// @no-log
+POST {{URL}}/jobs
+Content-Type: application/json
+Authorization: Bearer {{AUTH_TOKEN}}
+
+{
+  "title": "Full-stack developer",
+  "description": "Complete developer that can handle any thing.",
+  "locationType": "ON_SITE",
+  "location": "Delhi",
+  "company": "658fe46c9ab69e4f86adce02",
+  "employmentType": "Full-time",
+  "experience": "0-3"
+}

@@ -6,11 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { ApiOperation } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('company')
 export class CompanyController {
@@ -22,9 +25,10 @@ export class CompanyController {
     return this.companyService.create(createCompanyDto);
   }
 
-  @Get()
-  findAll() {
-    return this.companyService.findAll();
+  @UseGuards(JwtAuthGuard)
+  @Get('jobs')
+  getAllActiveJobs(@Request() req: any) {
+    return this.companyService.activeJobs(req.user.company);
   }
 
   @ApiOperation({ summary: 'Get company details based on id' })

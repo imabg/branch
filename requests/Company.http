@@ -14,3 +14,9 @@ Content-Type: application/json
     "password": "Something123#"
   }
 }
+
+### Get active jobs against company
+// @no-log
+GET {{URL}}/company/jobs
+Content-Type: application/json
+Authorization: Bearer {{AUTH_TOKEN}}

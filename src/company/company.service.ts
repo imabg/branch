@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   HttpException,
   HttpStatus,
   Injectable,
@@ -7,7 +8,7 @@ import {
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { CompanyEntity } from './entities/company.entity';
 import { UsersService } from '../users/users.service';
 
@@ -31,8 +32,66 @@ export class CompanyService {
     }
   }
 
-  findAll() {
-    return `This action returns all company`;
+  async activeJobs(companyId: string) {
+    try {
+      const result = await this.companyModel.aggregate([
+        {
+          $lookup: {
+            from: 'jobs',
+            localField: '_id',
+            foreignField: 'company',
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      {
+                        $eq: [
+                          '$company',
+                          new mongoose.Types.ObjectId(companyId),
+                        ],
+                      },
+                      { $eq: ['$isArchive', false] },
+                    ],
+                  },
+                },
+              },
+            ],
+            as: 'jobData',
+          },
+        },
+        {
+          $unwind: '$jobData',
+        },
+        {
+          $group: {
+            _id: '$_id',
+            profile: { $first: '$profile' },
+            identity: { $first: '$identity' },
+            jobs: {
+              $push: {
+                id: '$jobData._id',
+                title: '$jobData.title',
+                experience: '$jobData.experience',
+                locationType: '$jobData.locationType',
+                location: '$jobData.location',
+                employmentType: '$jobData.employmentType',
+              },
+            },
+          },
+        },
+        {
+          $project: {
+            jobs: 1,
+            profile: 1,
+            identity: 1,
+          },
+        },
+      ]);
+      return result[0];
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 
   async findOne(id: string): Promise<CompanyEntity> {
