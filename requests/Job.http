@@ -5,11 +5,24 @@ Content-Type: application/json
 Authorization: Bearer {{AUTH_TOKEN}}
 
 {
-  "title": "Full-stack developer",
+  "title": "Full-stack developer-2",
   "description": "Complete developer that can handle any thing.",
-  "locationType": "ON_SITE",
+  "locationType": "REMOTE",
   "location": "Delhi",
-  "company": "658fe46c9ab69e4f86adce02",
+  "company": "65959cab7e25e8b1e5087281",
   "employmentType": "Full-time",
-  "experience": "0-3"
+  "experience": "5+"
 }
+
+
+### Fetch all jobs
+// @no-log
+GET {{URL}}/jobs/all
+Content-Type: application/json
+Authorization: Bearer {{AUTH_TOKEN}}
+
+### Fetch active jobs only
+// @no-log
+GET {{URL}}/jobs
+Content-Type: application/json
+Authorization: Bearer {{AUTH_TOKEN}}

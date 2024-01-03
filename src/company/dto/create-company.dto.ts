@@ -1,41 +1,33 @@
 import {
-  IsEnum,
   IsNotEmpty,
   IsNotEmptyObject,
+  IsOptional,
   IsString,
+  IsUrl,
   MaxLength,
+  ValidateIf,
   ValidateNested,
 } from 'class-validator';
-import { HeadCount } from '../company.constant';
 import { CreateUserDto } from '../../users/dto/create-user.dto';
 import { Type } from 'class-transformer';
 
-class ProfileDTO {
+export class CreateCompanyDto {
   @IsNotEmpty()
-  @IsString()
+  @IsUrl()
   website: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   @MaxLength(10)
   phone: string;
 
+  @IsOptional()
+  @IsString()
+  @ValidateIf((o) => o.phone !== null)
+  countryCode: string;
+
   @IsNotEmpty()
   @IsString()
-  countryCode: string;
-}
-export class CreateCompanyDto {
-  @IsNotEmpty()
-  @IsEnum(HeadCount)
-  headCount: string;
-
-  @IsNotEmptyObject()
-  @ValidateNested()
-  @Type(() => ProfileDTO)
-  profile: ProfileDTO;
-
-  @IsNotEmptyObject()
-  @ValidateNested()
-  @Type(() => CreateUserDto)
-  user: CreateUserDto;
+  @MaxLength(50)
+  name: string;
 }

@@ -53,7 +53,7 @@ export class JobEntity {
 
   @ApiProperty({ description: 'Department' })
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Department' })
-  department: string;
+  department: Array<string>;
 
   @ApiProperty({ description: 'Company' })
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Company' })
@@ -82,6 +82,10 @@ export class JobEntity {
   @ApiProperty({ description: 'Is Job is active' })
   @Prop({ type: Boolean, default: false })
   isArchive: boolean;
+
+  @ApiProperty({ description: 'Job config' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'JobConfig' })
+  config: string;
 }
 
 export const JobSchema = SchemaFactory.createForClass(JobEntity);

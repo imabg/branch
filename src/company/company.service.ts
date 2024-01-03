@@ -21,18 +21,20 @@ export class CompanyService {
   ) {}
   async create(createCompanyDto: CreateCompanyDto) {
     try {
-      const { headCount, profile, user } = createCompanyDto;
-      const company = new this.companyModel({ headCount, profile });
-      const companyEntity = await company.save();
-      user.company = companyEntity.id;
-      await this.userService.userOnboarding(user);
-      return company;
+      const { name, website, countryCode, phone } = createCompanyDto;
+      const company = new this.companyModel({
+        name,
+        website,
+        countryCode,
+        phone,
+      });
+      return await company.save();
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
     }
   }
 
-  async activeJobs(companyId: string) {
+  async careerPageDetails(companyId: string) {
     try {
       const result = await this.companyModel.aggregate([
         {
@@ -61,21 +63,35 @@ export class CompanyService {
           },
         },
         {
-          $unwind: '$jobData',
+          $unwind: {
+            path: '$jobData',
+            preserveNullAndEmptyArrays: true,
+          },
         },
         {
           $group: {
             _id: '$_id',
-            profile: { $first: '$profile' },
+            name: { $first: '$name' },
+            website: { $first: '$website' },
+            headCount: { $first: '$headCount' },
             identity: { $first: '$identity' },
             jobs: {
               $push: {
-                id: '$jobData._id',
-                title: '$jobData.title',
-                experience: '$jobData.experience',
-                locationType: '$jobData.locationType',
-                location: '$jobData.location',
-                employmentType: '$jobData.employmentType',
+                $cond: {
+                  if: { $ifNull: ['$jobData', null] },
+                  then: {
+                    id: { $ifNull: ['$jobData._id', null] },
+                    title: { $ifNull: ['$jobData.title', null] },
+                    experience: { $ifNull: ['$jobData.experience', null] },
+                    locationType: { $ifNull: ['$jobData.locationType', null] },
+                    location: { $ifNull: ['$jobData.location', null] },
+                    employmentType: {
+                      $ifNull: ['$jobData.employmentType', null],
+                    },
+                    config: { $ifNull: ['$jobData.config', null] },
+                  },
+                  else: '$$REMOVE',
+                },
               },
             },
           },
@@ -83,7 +99,8 @@ export class CompanyService {
         {
           $project: {
             jobs: 1,
-            profile: 1,
+            website: 1,
+            headCount: true,
             identity: 1,
           },
         },

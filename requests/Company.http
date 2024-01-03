@@ -3,20 +3,14 @@ POST {{URL}}/company/onboarding
 Content-Type: application/json
 
 {
-  "headCount": "5 to 50",
-  "profile": {
     "website": "https://babatraders.in",
     "phone": "9090974785",
-    "countryCode": "+91"
-  },
-  "user": {
-    "email": "user2@bt.in",
-    "password": "Something123#"
-  }
+    "countryCode": "+91",
+  "name": "Baba Traders"
 }
 
-### Get active jobs against company
+### Get career page
 // @no-log
-GET {{URL}}/company/jobs
+GET {{URL}}/company/65959cab7e25e8b1e5087281
 Content-Type: application/json
 Authorization: Bearer {{AUTH_TOKEN}}

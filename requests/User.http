@@ -1,8 +1,18 @@
+### Create User against company
+POST {{URL}}/users/create
+Content-Type: application/json
+
+{
+  "email": "imabg@bt.in",
+  "name": "Abhay Goswami",
+  "company": "65959cab7e25e8b1e5087281"
+}
+
 ### Update password
 POST {{URL}}/users/update/password
 Content-Type: application/json
 
 {
   "password": "Password123#",
-  "userId": "658fe46c9ab69e4f86adce04"
+  "userId": "65959d157e25e8b1e5087283"
 }

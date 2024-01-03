@@ -3,7 +3,18 @@ import { ApiProperty } from '@nestjs/swagger';
 import { HeadCount } from '../company.constant';
 import mongoose from 'mongoose';
 
-class Profile {
+class Identity {
+  @ApiProperty({ description: 'Logo URL' })
+  @Prop({ type: String })
+  image: string;
+
+  @ApiProperty({ description: 'Description' })
+  @Prop({ type: String })
+  description: string;
+}
+
+@Schema({ timestamps: true })
+export class CompanyEntity {
   @ApiProperty({ description: 'company name' })
   @Prop({ type: String, required: true })
   name: string;
@@ -19,34 +30,17 @@ class Profile {
   @ApiProperty({ description: 'Country code' })
   @Prop({ type: String, required: true })
   countryCode: string;
-}
-
-class Identity {
-  @ApiProperty({ description: 'Logo URL' })
-  @Prop({ type: String })
-  image: string;
-
-  @ApiProperty({ description: 'Description' })
-  @Prop({ type: String })
-  description: string;
-}
-
-@Schema({ timestamps: true })
-export class CompanyEntity {
-  @ApiProperty({ description: 'company profile' })
-  @Prop({ type: Object })
-  profile: Profile;
 
   @ApiProperty({ description: 'head count' })
-  @Prop({ enum: HeadCount, required: true, type: String })
+  @Prop({ enum: HeadCount, type: String })
   headCount: string;
 
   @ApiProperty({ description: 'identity' })
-  @Prop({ type: Object })
+  @Prop({ type: Identity })
   identity: Identity;
 
   @ApiProperty({ description: 'career page toggle' })
-  @Prop({ type: Boolean, default: true })
+  @Prop({ type: Boolean, default: false })
   isCareerPageActive: boolean;
 
   @ApiProperty({ description: 'departments' })

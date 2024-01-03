@@ -25,10 +25,10 @@ export class CompanyController {
     return this.companyService.create(createCompanyDto);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('jobs')
-  getAllActiveJobs(@Request() req: any) {
-    return this.companyService.activeJobs(req.user.company);
+  @ApiOperation({ summary: 'Company career page' })
+  @Get(':companyId')
+  careerPage(@Param('companyId') companyId: string) {
+    return this.companyService.careerPageDetails(companyId);
   }
 
   @ApiOperation({ summary: 'Get company details based on id' })

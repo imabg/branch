@@ -4,9 +4,9 @@
 ### P0
 
 - [x] Authentication & Authorization
-- [ ] Company onboarding
-- [ ] Career Page 
-- [ ] Job creation
+- [x] Company onboarding
+- [x] Career Page 
+- [x] Job creation
 
 
 ### P1
