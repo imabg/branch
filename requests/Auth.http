@@ -1,9 +1,0 @@
-### Login via Password
-// @no-log
-POST {{URL}}/auth/login
-Content-Type: application/json
-
-{
-  "email": "imabg@bt.in",
-  "password": "Password123#"
-}
